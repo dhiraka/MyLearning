@@ -13,11 +13,20 @@ class Fraction(object):
 
     def __init__(self, num, den):
         super(Fraction, self).__init__()
-        self.num = num
-        self.den = den
+        if not (isinstance(num, int) and isinstance(den, int)):
+            raise ValueError('Num or Den is not an integer')
+        gcd_in = gcd(num, den)
+        self.num = num / gcd_in
+        self.den = den / gcd_in
 
     def __str__(self):
         return str(self.num) + "/" + str(self.den)
+
+    def getNum(self):
+        return self.num
+
+    def getDen(self):
+        return self.den
 
     def __add__(self, otherfraction):
 
@@ -52,10 +61,25 @@ class Fraction(object):
         newnum = self.num * otherfraction.den - self.den * otherfraction.num
         return newnum < 0
 
+    def __le__(self, otherfraction):
+
+        newnum = self.num * otherfraction.den - self.den * otherfraction.num
+        return newnum <= 0
+
     def __gt__(self, otherfraction):
 
         newnum = self.num * otherfraction.den - self.den * otherfraction.num
         return newnum > 0
+
+    def __ge__(self, otherfraction):
+
+        newnum = self.num * otherfraction.den - self.den * otherfraction.num
+        return newnum >= 0
+
+    def __ne__(self, otherfraction):
+
+        newnum = self.num * otherfraction.den - self.den * otherfraction.num
+        return newnum != 0
 
 
 x = Fraction(1, 2)
