@@ -28,12 +28,12 @@ def factorize(n, primes):
     for p in primes:
         if p * p > n:
             break
-    i = 0
-    while n % p == 0:
-        n //= p
-        i += 1
-    if i > 0:
-        factors.append((p, i))
+        i = 0
+        while n % p == 0:
+            n //= p
+            i += 1
+        if i > 0:
+            factors.append((p, i))
     if n > 1:
         factors.append((n, 1))
 
@@ -62,11 +62,12 @@ def SIGMA2(n):
     for x in range(1, n + 1):
         sum += sigma2(x)
     return sum
-    # map(lambda x: sum += sigma2())
+    # map(lambda x: sigma2(x))
 
-print SIGMA2(1)
-print SIGMA2(2)
-print SIGMA2(3)
-print SIGMA2(4)
-print SIGMA2(5)
-print SIGMA2(6)
+# print SIGMA2(1)
+# print SIGMA2(2)
+# print SIGMA2(3)
+# print SIGMA2(4)
+# print SIGMA2(5)
+# print SIGMA2(6)
+print (SIGMA2(pow(10, 15)) % pow(10, 9))
