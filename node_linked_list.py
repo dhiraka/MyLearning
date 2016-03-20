@@ -2,7 +2,6 @@ class Node:
     def __init__(self, initdata):
         self.data = initdata
         self.next = None
-        self.position = None
 
     def getData(self):
         return self.data
@@ -66,30 +65,3 @@ class UnorderedList:
             self.head = current.getNext()
         else:
             previous.setNext(current.getNext())
-
-    def append(self, item):
-        temp = Node(item)
-        if self.head is not None:
-            temp.setNext(self.head)
-        self.head = temp
-
-    def insert(self, item):
-        temp = Node(item)
-        if self.head is not None:
-            temp.setNext(self.head)
-        self.head = temp
-
-    def index(self, item):
-        current = self.head
-        found = False
-        while current is not None and not found:
-            if current.getData() == item:
-                found = True
-            else:
-                current = current.getNext()
-
-        return found
-
-    def pop(self):
-        current = self.head
-        self.head = current.getNext()
