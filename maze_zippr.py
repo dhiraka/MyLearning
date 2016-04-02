@@ -12,7 +12,7 @@ def get_edge_door_indices(input_arr):
     for i in range(1, len(input_arr) - 1):
         if input_arr[i][0] == 1:
             edge_doors_indices.append((i, 0))
-        if input_arr[i][:-1] == 1:
+        if input_arr[i][-1] == 1:
             edge_doors_indices.append((i, len(input_arr[i]) - 1))
 
     return edge_doors_indices
@@ -30,43 +30,78 @@ def get_possible_pairs(edge_doors_indices):
     return start_end_pairs
 
 
-def get_possible_path_between_indices(start_ind, end_ind, input_arr, path=[]):
-    shortest_dist_from_start_dict = {}
+def make_graph_of_maze(input_arr):
+    connected_indices_dict = {}
     for i in range(len(input_arr)):
         for j in range(len(input_arr[i])):
-            shortest_dist_from_start_dict[(i, j)] = None
-    right_el = input_arr[i][j + 1]
-    left_el = input_arr[i][j - 1]
-    upper_el = input_arr[i - 1][j]
-    lower_el = input_arr[i + 1][j]
-    right_upper_el = input_arr[i - 1][j + 1]
-    left_upper_el = input_arr[i - 1][j - 1]
-    right_upper_el = input_arr[i + 1][j + 1]
-    left_upper_el = input_arr[i + 1][j - 1]
+            connected_index_list = []
+            try:
+                if input_arr[i][j + 1] == 1:
+                    connected_index_list.append((i, j + 1))
+            except:
+                pass
+            try:
+                if input_arr[i][j - 1] == 1:
+                    connected_index_list.append((i, j - 1))
+            except:
+                pass
+            try:
+                if input_arr[i - 1][j] == 1:
+                    connected_index_list.append((i - 1, j))
+            except:
+                pass
+            try:
+                if input_arr[i + 1][j] == 1:
+                    connected_index_list.append((i + 1, j))
+            except:
+                pass
+            try:
+                if input_arr[i - 1][j + 1] == 1:
+                    connected_index_list.append((i - 1, j + 1))
+            except:
+                pass
+            try:
+                if input_arr[i - 1][j - 1] == 1:
+                    connected_index_list.append((i - 1, j - 1))
+            except:
+                pass
+            try:
+                if input_arr[i + 1][j + 1] == 1:
+                    connected_index_list.append((i + 1, j + 1))
+            except:
+                pass
+            try:
+                if input_arr[i + 1][j - 1] == 1:
+                    connected_index_list.append((i + 1, j - 1))
+            except:
+                pass
+            connected_indices_dict[(i, j)] = connected_index_list
+    return connected_indices_dict
 
-    list_of_possible_paths = []
-    return list_of_possible_paths
 
-
-def find_all_paths(graph, start, end, path=[]):
-    path = path + [start]
-    if start == end:
-        return [path]
-    if not graph.has_key(start):
+def get_possible_paths(maze_graph, first, last, path=[]):
+    if first not in maze_graph:
         return []
+    path = path + [first]
+    if first == last:
+        return [path]
     paths = []
-    for node in graph[start]:
-        if node not in path:
-            newpaths = find_all_paths(graph, node, end, path)
+    for point in maze_graph[first]:
+        if point not in path:
+            newpaths = get_possible_paths(maze_graph, point, last, path)
             for newpath in newpaths:
                 paths.append(newpath)
     return paths
 
-input_arr = [[0, 1, 0, 0], [0, 0, 1, 0], [1, 1, 0, 1]]
+input_arr = [[0, 1, 0, 0], [0, 0, 1, 0], [1, 1, 0, 1], [0, 1, 1, 1]]
 
 
-print get_possible_pairs(get_edge_door_indices(input_arr))
-
-
-# Get all the edges.
-# For every pair of edges, get all possible paths
+maze_graph = make_graph_of_maze(input_arr)
+number_of_paths = 0
+all_possible_paths = []
+for pair in get_possible_pairs(get_edge_door_indices(input_arr)):
+    all_paths_list = get_possible_paths(maze_graph, pair[0], pair[1])
+    all_possible_paths += all_paths_list
+    number_of_paths += len(all_paths_list)
+print all_possible_paths
+print number_of_paths
