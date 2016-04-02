@@ -158,22 +158,24 @@ var maze_graph = make_graph_of_maze(input_arr);
 // console.log(maze_graph);
 // console.log(maze_graph[[0,1]]);
 var number_of_paths = 0
-all_possible_paths = [];
+var all_possible_paths = [];
 
 // console.log(get_possible_pairs(get_edge_door_indices(input_arr)));
 possible_pairs = get_possible_pairs(get_edge_door_indices(input_arr));
 
-for (i = 0; i < possible_pairs.length; i++) {
+for (k = 0; k < possible_pairs.length; k++) {
+    // console.log("Entering with "+k.toString())
     pair = possible_pairs[i]
-    console.log(pair[0]);
-    console.log(pair[1]);
+    // console.log(pair[0]);
+    // console.log(pair[1]);
     all_paths_list = get_possible_paths(maze_graph, pair[0], pair[1], []);
-    all_possible_paths += all_paths_list;
+    all_possible_paths = all_possible_paths.concat(all_paths_list);
     number_of_paths += all_paths_list.length;
-    console.log(all_paths_list)
-    console.log(number_of_paths)
+    // console.log(all_paths_list)
+    // console.log(number_of_paths)
 }
 
+console.log(all_possible_paths);
 console.log(number_of_paths);
 
 // console.log(arraysEqual([3,3], [3,3]));
