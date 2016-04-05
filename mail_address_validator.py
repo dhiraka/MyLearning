@@ -25,34 +25,31 @@ def read_mail_list(text_file_address):
 
 
 def validate_and_write_to_file(lst):
-    mail_id = ""
-    domain_verification_strng = verify_domain(mail_id)
-    email_verification_strng = verify_mail(mail_id)
-    domain_start_date = get_domain_start_date(mail_id)
-
-    url_dict = {}
+    mail_info = {}
     url_params = {}
+    for mail_id in lst:
+        mail_info[mail_id] = {}
+        mail_info[mail_id][urls] = []
+    url_lst = []
+    for dictn in mail_info.values():
+        url_lst.append(dictn[urls])
 
-    # rs = [grequests.get(uri, params=url_params, timeout=120)
-    #       for uri in urls_dict.keys() if uri]
-    # responses = grequests.map(rs, size=5)
+    rs = [grequests.get(uri, params=url_params, timeout=120)
+          for uri in url_lst if uri]
+    responses = grequests.map(rs, size=5)
 
-    # for response in responses:
-    #     if response is None:
-    #         continue
-    # Get dict from json response
-    #     json_response = response.json()
+    for response in responses:
+        if response is None:
+            continue
+        json_response = response.json()
 
-    # suman.varanasi@creditvidya.com
-# Domain Verified
-# Email Verified
-# 20 - 10 - 2013
+    # Process the data here and get the values
 
     with open('result.csv', 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter=',',
                             quotechar=',', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(
-            [mail_id, domain_verification_strng,
-             email_verification_strng, domain_start_date])
+            ["mail_id", "domain_verification_strng",
+             "email_verification_strng", "domain_start_date"])
 
 validate_and_write_to_file([])
