@@ -1,0 +1,6 @@
+gevent==1.1.1
+greenlet==0.4.9
+grequests==0.3.0
+requests==2.9.1
+rstr==2.2.3
+wheel==0.26.0
